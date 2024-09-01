@@ -29,15 +29,21 @@ def main():
 		for event in pygame.event.get():
 			if event.type == pygame.QUIT:
 				return
-		# Inputs
+		# Update
 		item: CircleShape
 		asteroid: Asteroid
+		shot: Shot
 		for item in updatable:
 			item.update(dt)
+		# Collision
 		for asteroid in asteroids:
 			if asteroid.is_colliding(player):
 				print("Game over!")
 				exit()
+			for shot in shots:
+				if asteroid.is_colliding(shot):
+					asteroid.split()
+					shot.kill()
 		# Rendering
 		screen.fill((0,0,0))
 		for item in drawable:
